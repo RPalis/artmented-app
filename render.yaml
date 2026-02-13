@@ -1,11 +1,41 @@
+# Artmented App - Render Blueprint
+# Deploy: Connect this repo in Render Dashboard → New → Blueprint
+
+databases:
+  - name: artmented-db
+    databaseName: artmented_db
+    user: artmented_user
+    plan: free
+    region: oregon
+
 services:
+  # Backend API
   - type: web
-    name: artmented-app
-    env: node
-    rootDir: .
+    name: artmented-backend
+    runtime: node
+    region: oregon
+    plan: free
+    rootDir: backend
     buildCommand: npm install
     startCommand: npm start
+    healthCheckPath: /health
     envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: artmented-db
+          property: connectionString
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 3000
 
+  # Frontend static site (set VITE_API_URL after backend is live, or use this default)
+  - type: web
+    name: artmented-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://artmented-backend.onrender.com/api
