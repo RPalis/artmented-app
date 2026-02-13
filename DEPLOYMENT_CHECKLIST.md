@@ -2,31 +2,47 @@
 
 ## ✅ Pre-Deployment Checklist
 
-### Local Setup Complete
 - [x] Backend structure organized (`backend/` folder)
 - [x] Frontend structure organized (`frontend/` folder)
-- [x] All dependencies installed
-- [x] Environment files created
+- [x] Render Blueprint added (`render.yaml`)
 - [x] Database schema ready (`backend/schema.sql`)
 
-### Next Steps for Render Deployment
+---
+
+## Option A: One-Click Deploy with Blueprint (Recommended)
+
+1. **Push your code** (if not already pushed):
+   ```bash
+   cd /Users/raquelsantospalis/Documents/artmented-app
+   git push origin main
+   ```
+
+2. **In Render Dashboard**:
+   - Go to [dashboard.render.com](https://dashboard.render.com)
+   - Click **New +** → **Blueprint**
+   - Connect the repo **RPalis/artmented-app** (or paste `https://github.com/RPalis/artmented-app`)
+   - Render will read `render.yaml` and create:
+     - **PostgreSQL** database: `artmented-db`
+     - **Web Service** (backend): `artmented-backend`
+     - **Static Site** (frontend): `artmented-frontend`
+   - Click **Apply**
+
+3. **Run the database schema** (once the database is live):
+   - In Render Dashboard → **artmented-db** → **Connect** → **External Connection**
+   - Use **psql** or the **Shell** tab; paste and run the contents of `backend/schema.sql`
+
+4. **Done.** Frontend: `https://artmented-frontend.onrender.app` · Backend: `https://artmented-backend.onrender.com`
+
+---
+
+## Option B: Manual Setup (Step by Step)
 
 ## Step 1: Push to GitHub
 
+**The latest changes are already committed.** You only need to push:
+
 ```bash
-# Make sure you're in the project root
 cd /Users/raquelsantospalis/Documents/artmented-app
-
-# Check git status
-git status
-
-# Add all files
-git add .
-
-# Commit changes
-git commit -m "Reorganize project structure for Render deployment"
-
-# Push to GitHub (if remote exists)
 git push origin main
 ```
 
